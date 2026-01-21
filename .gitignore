@@ -1,0 +1,54 @@
+# Root .gitignore for monorepo
+
+# Node modules
+**/node_modules/
+**/.claude/
+**/.gemini/
+**/.github/
+
+# Build outputs
+/dist/
+/build/
+/out-tsc/
+/tmp/
+/temp
+/.angular/cache
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Environment
+.env
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs / editors
+.idea/
+/.vscode/
+!client/.vscode/
+!server/.vscode/
+
+# Tests / coverage
+coverage/
+**/coverage/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Misc / runtime
+pids
+*.pid
+*.seed
+.temp
+.tmp
