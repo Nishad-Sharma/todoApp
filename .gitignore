@@ -7,9 +7,9 @@
 **/.github/
 
 # Build outputs
-/dist/
-/build/
-/out-tsc/
+**/dist/
+**/build/
+**/out-tsc/
 /tmp/
 /temp
 /.angular/cache
