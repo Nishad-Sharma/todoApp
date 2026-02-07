@@ -6,9 +6,13 @@ import { DataSource } from 'typeorm';
 import { TodosModule } from './todos/todos.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ // load env vars
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
         type: 'sqlite',
         database: 'database.sqlite',
