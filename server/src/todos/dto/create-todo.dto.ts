@@ -6,9 +6,6 @@ export class CreateTodoDto {
     @IsString()
     title: string;
 
-    @IsNotEmpty()
-    userId: number | string;
-
     @IsOptional()
     @IsString()
     description?: string;

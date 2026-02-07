@@ -37,12 +37,12 @@ async function populateTestData() {
         const fred = await userService.create({ email: 'fred@todo.com', password: 'test123' });
         const george = await userService.create({ email: 'george@todo.com', password: 'nuggets25'} );
 
-        await todoService.create({ title: 'Mow lawn', userId: fred.id });
-        await todoService.create({ title: 'Take out bins', userId: fred.id });
-        await todoService.create({ title: 'Water plants', userId: fred.id });
+        await todoService.create({ title: 'Mow lawn' }, fred.id);
+        await todoService.create({ title: 'Take out bins' }, fred.id);
+        await todoService.create({ title: 'Water plants' }, fred.id);
 
-        await todoService.create({ title: 'Book flight', userId: george.id, description: 'evaluate options & book' });
-        await todoService.create({ title: 'Alice birthday', userId: george.id });
+        await todoService.create({ title: 'Book flight', description: 'evaluate options & book' }, george.id);
+        await todoService.create({ title: 'Alice birthday' }, george.id);
 
     } catch (error) {
         console.error('Error initializing test DB state:', error);

@@ -30,9 +30,10 @@ export class TodosService {
     }
 
     // no ownership check here. user2 can create todo for user1 atm. will get fixed with JWT.
-    async create(createTodoDto: CreateTodoDto): Promise<Todo> { 
-        const user = await this.usersRepository.findOneBy({ id: Number(createTodoDto.userId) });
-        if (!user) {
+    async create(createTodoDto: CreateTodoDto, userId: number): Promise<Todo> { 
+        // userId passed in now from jwt.
+        const user = await this.usersRepository.findOneBy({ id: userId });
+        if (!user) { // keep for ghost user case.
             throw new NotFoundException('User not found');
         }
         const todo = this.todosRepository.create({
@@ -56,8 +57,7 @@ export class TodosService {
     async remove(id: number, userId: number): Promise<void> {
         const result = await this.todosRepository.delete({ id: id, user: { id: userId } });
         if (result.affected === 0) {
-            // throw NotfoundException?
-            throw new Error('Todo not found or not owned by user: id ' + id); 
+            throw new NotFoundException('Todo not found or not owned by user: id ' + id); 
         }
     }
 }
