@@ -1,9 +1,10 @@
-import { Controller, Post, Body, UsePipes, ValidationPipe, Get, NotFoundException, Delete, Request } from '@nestjs/common';
+import { Controller, Post, Body, UsePipes, ValidationPipe, Get, NotFoundException, Delete, Request, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Public } from '../auth/public.decorator';
 
 @Controller('users')
+@UseInterceptors(ClassSerializerInterceptor) // intercepts user obj before it's serialised and applies decorators (@Exclude)
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
