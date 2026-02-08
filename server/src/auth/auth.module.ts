@@ -16,9 +16,13 @@ import { AuthGuard } from './auth.guard';
         JwtModule.registerAsync({
             imports: [ConfigModule],
             useFactory: async (configService: ConfigService) => ({
-                // 2do maybe throw error if secret not pulled??
-                secret: configService.get<string>('JWT_SECRET'),
-                signOptions: { expiresIn: '10m' },
+                // secret: configService.get<string>('JWT_SECRET'), // symmetric signing
+                privateKey: configService.get<string>('JWT_PRIVATE_KEY'),
+                publicKey: configService.get<string>('JWT_PUBLIC_KEY'),
+                signOptions: { 
+                    expiresIn: '10m',
+                    algorithm: 'RS256'
+                },
             }),
             inject: [ConfigService],
         }),

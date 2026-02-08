@@ -3,12 +3,14 @@ import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
 import { IS_PUBLIC_KEY } from "./public.decorator";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(
         private jwtService: JwtService, 
         private reflector: Reflector, // used to find which routes are marked public
+        private configService: ConfigService
     ) {}
 
     // verifies jwt and determines if request should proceed
@@ -32,7 +34,10 @@ export class AuthGuard implements CanActivate {
 
         try {
             // can pass secret explicitly here if we have multiple. just one for now so using global.
-            const payload = await this.jwtService.verifyAsync(token);
+            const payload = await this.jwtService.verifyAsync(token, {
+                publicKey: this.configService.get<string>('JWT_PUBLIC_KEY'),
+                algorithms: ['RS256']
+            });
             request["user"] = payload; // assign payload to req obj for later access
         } catch {
             throw new UnauthorizedException("Invalid token");

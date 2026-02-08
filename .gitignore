@@ -53,3 +53,5 @@ pids
 .temp
 .tmp
 .env
+private_key.pem
+public_key.pem
