@@ -11,7 +11,7 @@ export class UsersService {
         private usersRepository: Repository<User>
     ) {}
     
-    async findOne(id: number): Promise<User | null> {
+    async findOne(id: number): Promise<User | null> { // 2do, this currently returns password. shouldn't happen
         return await this.usersRepository.findOneBy({ id });
     }
 

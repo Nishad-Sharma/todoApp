@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Todo } from '../todos/todo.entity';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity() // 2do: can try entitySchema as well?
 export class User {
@@ -14,8 +13,4 @@ export class User {
 
     @Column()
     password: string; // hash later
-
-    // todo table stores FK, userID column
-    @OneToMany(() => Todo, (todo) => todo.user)
-    todos: Todo[]; 
 }

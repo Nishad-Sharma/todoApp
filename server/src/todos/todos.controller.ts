@@ -7,7 +7,7 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 export class TodosController {
     // inject service into controller layer
     constructor(private readonly todosService: TodosService) {}
-
+    // 2do: should todos endpoint be under users? since user specific?
     @Post()
     createTodo(@Body() createTodoDto: CreateTodoDto, @Request() req) {
         return this.todosService.create(createTodoDto, req.user.sub);

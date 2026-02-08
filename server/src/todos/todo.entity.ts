@@ -44,6 +44,6 @@ export class Todo {
 
     // if we do sub-todo's later, look at adjacency list vs closure table
     // depends on parent/child depth but seems like closure better
-    @ManyToOne(() => User, (user) => user.todos, { onDelete: 'CASCADE'})
+    @ManyToOne(() => User, { onDelete: 'CASCADE'}) // onDelete cascade deletes todos when user deleted 
     user: User;
 }

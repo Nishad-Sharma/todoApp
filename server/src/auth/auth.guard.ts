@@ -8,7 +8,7 @@ import { IS_PUBLIC_KEY } from "./public.decorator";
 export class AuthGuard implements CanActivate {
     constructor(
         private jwtService: JwtService, 
-        private reflector: Reflector, 
+        private reflector: Reflector, // used to find which routes are marked public
     ) {}
 
     // verifies jwt and determines if request should proceed
@@ -22,6 +22,8 @@ export class AuthGuard implements CanActivate {
             return true;
         }
         
+        // executionContext wraps request with details like what kind of req (http/websocket/rpc), where it's going (which controller method)
+        // needed for reflector - gets metadata (@Public tag) before code runs
         const request = context.switchToHttp().getRequest();
         const token = this.extractTokenFromHeader(request);
         if (!token) {
