@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class UsersService {
@@ -25,7 +26,11 @@ export class UsersService {
 
     async create(createUserDto: CreateUserDto): Promise<User> {
         try {
-            const user = this.usersRepository.create(createUserDto);
+            const hashedPassword = await argon2.hash(createUserDto.password);
+            const user = this.usersRepository.create({
+                ...createUserDto,
+                password: hashedPassword
+            });
             return await this.usersRepository.save(user);
         } catch (error) {
             if (error.code === 'SQLITE_CONSTRAINT') { // sqlite specific, for unique constraint check

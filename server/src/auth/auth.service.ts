@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt'
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class AuthService {
@@ -11,10 +12,9 @@ export class AuthService {
 
     async signIn(email: string, pass: string): Promise<{ accessToken: string }> {
         const user = await this.usersService.findOneByEmail(email);
-        // 2do use bcrypt with salted one-way hash/ look at other options
         // should we have two errors for invalid email vs password?
         // no, specifying error gives info to attacker, keep it generic.
-        if (!user || user.password !== pass) {
+        if (!user || !(await argon2.verify(user.password, pass))) {
             throw new UnauthorizedException('Invalid password or email'); 
         }
         const payload = { sub: user.id, email: user.email }; // sub to hold userId is standard with jwt
