@@ -1,0 +1,36 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>{{ isLoginMode() ? 'Log In' : 'Create Account' }}</h2>
+        
+        <form [formGroup]="form" (ngSubmit)="submit()"> 
+        
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" formControlName="email" placeholder="example@example.com">
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" formControlName="password" placeholder="••••••••">
+            </div>
+
+            @if (errorMessage()) {
+                <p class="error">{{ errorMessage() }}</p>
+            }
+
+            <button type="submit" [disabled]="form.invalid">
+                {{ isLoginMode() ? 'Log In' : 'Register' }}
+            </button>
+
+        </form>
+
+        <div class="toggle-link">
+            <p>
+                {{ isLoginMode() ? "Don't have an account?" : "Already have an account?" }}
+                <a (click)="toggleMode()">
+                    {{ isLoginMode() ? 'Register' : 'Log In' }}
+                </a>
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="dashboard-container">
+    <header>
+        <h1>Todo Board</h1>
+    </header>
+
+    <div class="create-card">
+        <h3>Create Todo</h3>
+        <div class="form-grid">
+            <input class="full-width" type="text" [(ngModel)]="newTodo.title" placeholder="Task name (Required)">
+            
+            <input class="full-width" type="text" [(ngModel)]="newTodo.description" placeholder="Description (Optional)">
+            
+            <input type="text" [(ngModel)]="newTodo.category" placeholder="Category (Optional)">
+            
+            <select [(ngModel)]="newTodo.priority">
+                <option [value]="TodoPriority.NONE">No Priority</option>
+                <option [value]="TodoPriority.LOW">Low</option>
+                <option [value]="TodoPriority.MEDIUM">Medium</option>
+                <option [value]="TodoPriority.HIGH">High</option>
+            </select>
+
+            <button (click)="addTodo()" [disabled]="!newTodo.title">Create Todo</button>
+        </div>
+    </div>
+
+    <div class="cards-list">
+        @for (todo of todos(); track todo.id) {
+            <div class="todo-card">
+                <div class="card-header">
+                    <span class="badge priority" [attr.data-prio]="todo.priority">{{ todo.priority }}</span>
+                    <span class="badge category" *ngIf="todo.category">{{ todo.category }}</span>
+                    <div class="spacer"></div>
+                    <button class="delete-btn" (click)="deleteTodo(todo.id)">Delete</button>
+                </div>
+
+                <h4>{{ todo.title }}</h4>
+                <p class="description">{{ todo.description }}</p>
+
+                <div class="card-footer">
+                    <label>Status:</label>
+                    <select [ngModel]="todo.status" (ngModelChange)="updateStatus(todo, $event)">
+                        <option [value]="TodoStatus.PENDING">Pending</option>
+                        <option [value]="TodoStatus.IN_PROGRESS">In Progress</option>
+                        <option [value]="TodoStatus.COMPLETED">Completed</option>
+                    </select>
+                </div>
+            </div>
+        } @empty {
+            <div class="empty-state">No todos!</div>
+        }
+    </div>
+</div>
