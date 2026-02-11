@@ -1,14 +1,16 @@
-import { Controller, HttpCode, HttpStatus, Post, Body, Get, Request, Res } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Body, Get, Request, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/signin-auth.dto';
 import { Public } from './public.decorator';
 import * as express from 'express';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) {}
 
     @Public()
+    @UseGuards(ThrottlerGuard) // rate limit, login only
     @HttpCode(HttpStatus.OK)
     @Post('login')
     async signIn(@Body() signInDto: SignInDto, @Res({ passthrough: true }) response: express.Response) {

@@ -45,9 +45,13 @@ export class Login {
                     this.toggleMode();
                 }
             },
-            error: () => {
+            error: (err) => {
                 if (this.isLoginMode()) {
-                    this.errorMessage.set('Login failed. Please check your credentials.');
+                    if (err.status === 429) {
+                        this.errorMessage.set('Too many login attempts. Please try again later.');
+                    } else {
+                        this.errorMessage.set('Login failed. Incorrect credentials.');
+                    }
                 } else {
                     this.errorMessage.set('Registration failed. Please try again.');
                 }

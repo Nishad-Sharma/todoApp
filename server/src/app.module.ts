@@ -7,6 +7,7 @@ import { TodosModule } from './todos/todos.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -18,6 +19,14 @@ import { ConfigModule } from '@nestjs/config';
         database: 'database.sqlite',
         autoLoadEntities: true,
         synchronize: true, // disable in prod - can cause data loss, auto updates db schema to match entities
+    }),
+    ThrottlerModule.forRoot({
+        throttlers: [
+            {
+                ttl: 60000,
+                limit: 5,
+            }
+        ]
     }),
     UsersModule,
     TodosModule,
