@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
@@ -9,7 +9,8 @@ import { AuthGuard } from './auth.guard';
 
 @Module({
     imports: [
-        UsersModule,
+        forwardRef(() => UsersModule), // circular dep fix
+        ConfigModule,
         // need async registration as Nest inits modules in a specific order
         // static register would likely be configured before env vars loaded and break (undefined secret)
         // useFactory injects secret at runtime
@@ -35,6 +36,6 @@ import { AuthGuard } from './auth.guard';
             useClass: AuthGuard,
         }
     ],
-    exports: [AuthService]
+    exports: [AuthService, JwtModule, ConfigModule],
 })
 export class AuthModule {}

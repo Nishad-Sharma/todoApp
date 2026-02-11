@@ -17,7 +17,7 @@ export class AuthService {
         if (!user || !(await argon2.verify(user.password, pass))) {
             throw new UnauthorizedException('Invalid password or email'); 
         }
-        const payload = { sub: user.id, email: user.email }; // sub to hold userId is standard with jwt
+        const payload = { sub: user.id, email: user.email, role: user.role }; // sub to hold userId is standard with jwt
 
         return {
             accessToken: await this.jwtService.signAsync(payload)
