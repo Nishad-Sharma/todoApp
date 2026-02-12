@@ -2,9 +2,15 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
+
+    app.useGlobalPipes(new ValidationPipe({
+        whitelist: true, // Strips out properties that aren't in your DTO (Security best practice)
+        forbidNonWhitelisted: true, // Throws error if extra properties are sent
+    }));
 
     // helmet sets secure http response headers. helps with clickjacking, xss attacks, prevents mime sniffing.
     app.use(helmet());

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Index } from 'typeorm';
 import { User } from '../users/user.entity';
 
 export enum TodoStatus {
@@ -15,6 +15,7 @@ export enum TodoPriority {
 }
 
 @Entity()
+@Index(['user'])
 export class Todo {
     @PrimaryGeneratedColumn()
     id: number;

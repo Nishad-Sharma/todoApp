@@ -29,7 +29,6 @@ export class TodosService {
         return todo;
     }
 
-    // no ownership check here. user2 can create todo for user1 atm. will get fixed with JWT.
     async create(createTodoDto: CreateTodoDto, userId: number): Promise<Todo> { 
         // userId passed in now from jwt.
         const user = await this.usersRepository.findOneBy({ id: userId });

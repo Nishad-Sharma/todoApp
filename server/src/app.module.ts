@@ -20,7 +20,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
         autoLoadEntities: true,
         synchronize: true, // disable in prod - can cause data loss, auto updates db schema to match entities
     }),
-    ThrottlerModule.forRoot({
+    ThrottlerModule.forRoot({ // server stores req-counts in memory - if scaled to multiple servers wouldn't work
         throttlers: [
             {
                 ttl: 60000,
